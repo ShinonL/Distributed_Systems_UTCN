@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>Register a new account</h2>
+
+<mat-dialog-content class="mat-typography">
+    <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput [formControl]="description" placeholder="Ex: ana.marinescu">
+        <mat-error *ngIf="description.value == ''">Please insert a description</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Maximum Consumption</mat-label>
+        <input matInput [formControl]="maximumHourlyConsumption" placeholder="Ex: 3.6">
+        <mat-error *ngIf="maximumHourlyConsumption.value == ''">Please insert a maximum hourly consumption</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-radio-group appearance="fill" [(ngModel)]="newAddress" [disabled]="isDisabled()">
+        <mat-radio-button [value]="true">
+            Create new Address
+        </mat-radio-button>
+        <mat-radio-button [value]="false">
+            Use existing Address
+        </mat-radio-button>
+    </mat-radio-group>
+    
+    <br>
+
+    <mat-form-field *ngIf="newAddress" appearance="fill" color="warn">
+        <mat-label>Address Line 1</mat-label>
+        <input matInput [formControl]="addressLine1" placeholder="Address Line 1">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field *ngIf="newAddress" appearance="fill" color="warn">
+        <mat-label>Address Line 2</mat-label>
+        <input matInput [formControl]="addressLine2" placeholder="Address Line 2">
+    </mat-form-field>
+
+    <mat-form-field *ngIf="!newAddress" appearance="fill">
+        <mat-label>Address</mat-label>
+        <mat-select [(ngModel)]="addressId">
+            <mat-option *ngFor="let add of addresses" [value]="add.id">{{ parseAddress(add) }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close="test" *ngIf="!data.device" cdkFocusInitial (click)="onRegister()">Create</button>
+  <button mat-button mat-dialog-close="test" *ngIf="!!data.device" cdkFocusInitial (click)="onUpdate()">Update</button>
+</mat-dialog-actions>

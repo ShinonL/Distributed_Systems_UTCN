@@ -1,0 +1,22 @@
+.btn {
+    width: 99%;
+    padding: 12px;
+    font-size: 20px;
+}
+
+::ng-deep div.mat-grid-tile-content {
+    display: block !important; /* or whichever you need */
+  }
+
+::ng-deep mat-grid-list.mat-grid-list {
+height: 90vh !important; /* or whichever you need */
+}
+
+.my_class1 {
+    background-color: #f3d4d0;
+    text-align: left;
+}
+
+.my_class2 {
+    background-color: #becbc7;
+}

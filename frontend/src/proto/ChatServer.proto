@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package chat.server;
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+
+enum status {
+  UNKNOWN = 0;
+  ONLINE = 1;
+  OFFLINE = 2;
+}
+
+message StreamMessage {
+  string userId = 1;
+  string message = 2;
+}
+
+message Empty {
+}
+
+message ChatMessage {
+  string sender = 1;
+  string receiver = 2;
+  string message = 3;
+  int64 time = 4;
+}
+
+message UserProto {
+  string id = 1;
+  string username = 2;
+  string role = 3;
+}
+
+message UserList {
+  repeated UserProto users = 1;
+}
+
+message JoinResponse {
+  int32 responseStatusCode = 1;
+  string message = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message ReceiveMessageRequest {
+  string userToReceiveMessages = 1;
+}
+
+message SendMessageResponse {
+  string sender = 1;
+  string receiver = 2;
+  string message = 3;
+  string seen = 4;
+  google.protobuf.Timestamp timestamp = 5;
+}
+
+message MessagesList {
+  repeated ChatMessage chatMessages = 1;
+}
+
+message Convo {
+  string sender = 1;
+  string reveiver = 2;
+}
+
+service ChatServer {
+  rpc join(UserProto) returns (JoinResponse) {}
+  rpc sendMessage(ChatMessage) returns (SendMessageResponse) {}
+  rpc receiveMessage(ReceiveMessageRequest) returns (stream ChatMessage) {}
+  rpc getAllUsers(Empty) returns (UserList) {}
+  rpc getMessagesForUser(Convo) returns (MessagesList) {}
+}

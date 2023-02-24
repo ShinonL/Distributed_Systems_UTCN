@@ -1,0 +1,74 @@
+version: "3"
+
+services:
+    mysqldb:
+        image: mysql:latest
+        env_file: ./.env
+        container_name: mysqldb
+        ports:
+            - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+        networks:
+            - DS_SQL_SPRING
+        volumes:
+            - database-data-1:/var/lib/mysql
+            - ./DB_dump.sql:/docker-entrypoint-initdb.d/0_db_dump.sql
+        expose:
+            - "33061"
+    backend:
+        depends_on:
+            - mysqldb
+        build:
+            context: ./backend
+            dockerfile: ./Dockerfile
+        container_name: backend
+        restart: on-failure
+        env_file: ./.env
+        ports:
+            - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+            - $GRPC_LOCAL_PORT:$GRPC_DOCKER_PORT
+        networks:
+            - DS_SQL_SPRING
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: ./Dockerfile
+        depends_on:
+            - mysqldb
+            - backend
+        env_file: ./.env
+        container_name: frontend
+        ports:
+            - $FRONTEND_LOCAL_PORT:$FRONTEND_DOCKER_PORT
+        expose:
+            - $FRONTEND_DOCKER_PORT
+        networks:
+            - DS_SQL_SPRING
+    rabbit:
+        image: rabbitmq:3-management-alpine
+        container_name: rabbitmq
+        ports:
+            - $RABBIT_LOCAL_PORT:$RABBIT_DOCKER_PORT
+            - $RABBIT_MANAGEMENT_LOCAL_PORT:$RABBIT_MANAGEMENT_DOCKER_PORT
+        env_file: ./.env
+        networks:
+            - DS_SQL_SPRING
+    grpc-envoy:
+        env_file: ./.env
+        container_name: grpc-envoy
+        build:
+            context: ./backend
+            dockerfile: ./Dockerfile.envoy
+        depends_on:
+            - backend
+        ports:
+            - 8083:8083
+            - 9901:9901
+        networks:
+            - DS_SQL_SPRING
+
+networks:
+    DS_SQL_SPRING:
+        driver: bridge
+
+volumes:
+    database-data-1: { }

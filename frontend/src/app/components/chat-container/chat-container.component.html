@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+<mat-grid-list cols="7" rowHeight="900px">
+    <mat-grid-tile [colspan]="1">
+        <div *ngFor="let user of users">
+            <button mat-raised-button class="btn" *ngIf="isAdmin(user.getRole())"  color="primary"(click)="onReceiverSelect(user.getUsername())">
+                {{ user.getUsername() }}
+            </button>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="6">
+        <div *ngFor="let msg of messages" [ngClass]="msg.getSender() == username ? 'my_class1' : 'my_class2'">
+            <div>{{msg.getMessage()}}</div>
+            <div><sub>{{msg.getSender()}} </sub></div>
+        </div>
+        <mat-form-field *ngIf="!!conv.getReveiver()">
+            <mat-label>Send message</mat-label>
+            <input matInput type="text" [(ngModel)]="newMsg">
+            <button matSuffix mat-icon-button aria-label="snd" (click)="sendMessage()" [disabled]="!newMsg">
+              <mat-icon>send</mat-icon>
+            </button>
+          </mat-form-field>
+    </mat-grid-tile>
+</mat-grid-list>

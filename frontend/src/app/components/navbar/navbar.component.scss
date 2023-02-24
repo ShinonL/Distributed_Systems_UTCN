@@ -1,0 +1,20 @@
+.avatar-photo {
+    background-image: url(https://source.unsplash.com/100x100/?profile);
+    background-size: cover;
+  
+    width: 50px;
+    height: 50px;
+    margin-left: 25px;
+}
+
+.fill-space {
+    flex: 1 1 auto;
+}
+
+mat-toolbar {
+    height: 70px;
+}
+
+button {
+    margin-left: 20px;
+}

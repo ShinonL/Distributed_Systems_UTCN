@@ -1,0 +1,22 @@
+<app-navbar></app-navbar>
+
+<h1 class="title">The current existing users</h1>
+<div fxLayout="row wrap" fxLayoutGap="20px">
+    <div fxFlex="30%" *ngFor="let user of users">
+        <mat-card class="user-card mat-elevation-z6">
+            <mat-card-header>
+                <div mat-card-avatar class="user-image"></div>
+                <mat-card-title> Name: {{ parseName(user) }} </mat-card-title>
+                <mat-card-subtitle> Username: {{ user.username }} </mat-card-subtitle>
+                <mat-card-subtitle> Role: {{ parseRole(user) }} </mat-card-subtitle>
+                <mat-card-subtitle> E-mail: {{ user.email }} </mat-card-subtitle>
+                <mat-card-subtitle> Phone Number: {{ user.phoneNumber }} </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions align="end">
+                <button mat-raised-button color="accent" (click)="viewDevices(user)">Devices</button>
+                <button mat-raised-button color="accent" (click)="editUser(user)">Edit</button>
+                <button mat-raised-button color="warn" [disabled]="isDisabled(user)" (click)="onDelete(user)">Delete</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

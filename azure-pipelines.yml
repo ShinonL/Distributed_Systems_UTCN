@@ -1,0 +1,49 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- production
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '4f11b5dd-6cae-4e2f-af37-7e18af49605a'
+  backendImageRepository: 'backendImageRepository'
+  frontendImageRepository: 'frontendImageRepository'
+  containerRegistry: 'dsassignment2.azurecr.io'
+  backendDockerfilePath: '$(Build.SourcesDirectory)/backend/Dockerfile'
+  frontendDockerfilePath: '$(Build.SourcesDirectory)/frontend/Dockerfile'
+  tag: 'latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      name: local
+    steps:
+    - task: Docker@2
+      displayName: Build and push an backend image to container registry
+      inputs:
+        projectName: ds_assignment_2_backend
+        command: buildAndPush
+        repository: $(backendImageRepository)
+        dockerfile: $(backendDockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker@2
+      displayName: Build and push an frontend image to container registry
+      inputs:
+        projectName: ds_assignment_2_frontend
+        command: buildAndPush
+        repository: $(frontendImageRepository)
+        dockerfile: $(frontendDockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)

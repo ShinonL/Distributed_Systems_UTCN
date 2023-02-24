@@ -1,0 +1,26 @@
+.device-card {
+  max-width: 500px;
+  background-color: rgb(228, 228, 228);
+  margin-top: 20px;
+  margin-left: 60px;
+}
+
+.device-image {
+  background-image: url(https://source.unsplash.com/100x100/?device);
+  background-size: cover;
+
+  width: 100px;
+  height: 100px;
+}
+
+.content {
+  padding: 16px;
+}
+
+.content > mat-card {
+  width: 200px;
+}
+
+.title {
+  font-size: 17px;
+}

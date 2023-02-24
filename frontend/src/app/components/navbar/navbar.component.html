@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+    <button mat-button class="avatar-photo" [matMenuTriggerFor]="avatarMenu"></button>
+    <mat-menu #avatarMenu="matMenu">
+        <button mat-menu-item (click)="onLogout()">Logout</button>
+    </mat-menu>
+    <button mat-raised-button color="accent" (click)="chat()">Chat</button>
+    <button mat-raised-button *ngIf="authService.isAdministrator()" color="accent" (click)="viewUsers()">Users</button>
+    <button mat-raised-button *ngIf="authService.isAdministrator()" color="accent" (click)="createUserDialog()">Create User</button>
+    <button mat-raised-button *ngIf="!authService.isAdministrator()" color="accent" (click)="viewDevices()">Devices</button>
+    <ng-content select=".adminHome"></ng-content>
+  
+    <span class="fill-space"></span>
+    
+    <span>Energy Consumption Management</span>
+</mat-toolbar>

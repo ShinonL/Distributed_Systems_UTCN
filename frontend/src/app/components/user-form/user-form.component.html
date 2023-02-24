@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Register a new account</h2>
+
+<mat-dialog-content class="mat-typography">
+    <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput [formControl]="username" placeholder="Ex: ana.marinescu">
+        <mat-error *ngIf="username.value == ''">Please insert a username</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="fill" color="warn">
+        <mat-label>Password</mat-label>
+        <input matInput [formControl]="password" type="password">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>First Name</mat-label>
+        <input matInput [formControl]="firstName" placeholder="Ex: Ana">
+        <mat-error *ngIf="firstName.value == ''">Please insert a first name</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Last Name</mat-label>
+        <input matInput [formControl]="lastName" placeholder="Ex: Marinescu">
+        <mat-error *ngIf="lastName.value == ''">Please insert a last name</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput [formControl]="email" placeholder="Ex: ana.marinescu@email.com">
+        <mat-error *ngIf="email.value == ''">Please insert an email</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Phone Number</mat-label>
+        <input type="tel" matInput [formControl]="phoneNumber" placeholder="Ex: 0712345678">
+        <mat-error *ngIf="phoneNumber.value == ''">Please insert a phone number</mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Role</mat-label>
+        <mat-select [(ngModel)]="role" [disabled]="isDisabled()">
+            <mat-option *ngFor="let option of roles" [value]="option">{{ option }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close="test" *ngIf="!isDisabled()" cdkFocusInitial (click)="onRegister()">Register</button>
+  <button mat-button mat-dialog-close="test" *ngIf="isDisabled()" cdkFocusInitial (click)="onUpdate()">Update</button>
+</mat-dialog-actions>

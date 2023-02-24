@@ -1,0 +1,19 @@
+<div fxLayout="row wrap" fxLayoutGap="20px">
+  <div fxFlex="30%" *ngFor="let device of devices">
+    <mat-card class="device-card mat-elevation-z6">
+      <mat-card-header>
+        <div mat-card-avatar class="device-image"></div>
+        <mat-card-title> Id: <p class="title">{{ device.id }}</p> </mat-card-title>
+        <mat-card-subtitle> Description: {{ device.description }} </mat-card-subtitle>
+        <mat-card-subtitle> Address: {{ parseAddress(device) }} </mat-card-subtitle>
+        <mat-card-subtitle> Maximum Consumption: {{ device.maximumHourlyConsumption }} </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions align="end">
+        <button mat-raised-button color="accent" (click)="viewDevice(device)">Details</button>
+        <button mat-raised-button color="accent" *ngIf="authService.isAdministrator()" (click)="addEC(device)">Add Consumption</button>
+        <button mat-raised-button color="accent" *ngIf="authService.isAdministrator()" (click)="editDevice(device)">Edit</button>
+        <button mat-raised-button color="warn" *ngIf="authService.isAdministrator()" (click)="deleteDevice(device)">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

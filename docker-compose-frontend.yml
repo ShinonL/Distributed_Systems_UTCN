@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+    frontend:
+        image: dsassignment2.azurecr.io/frontendimagerepository:latest
+        env_file: ./.env
+        container_name: frontend
+        ports:
+            - $FRONTEND_LOCAL_PORT:$FRONTEND_DOCKER_PORT
+        expose:
+            - $FRONTEND_DOCKER_PORT
+        domainname: frontend-db   
+    mysqldb:
+        image: mysql:latest
+        env_file: ./.env
+        container_name: mysqldb
+        ports:
+            - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+        expose:
+            - "33061"
+        domainname: frontend-db
+  
+            
+

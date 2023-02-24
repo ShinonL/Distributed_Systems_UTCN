@@ -1,0 +1,6 @@
+<app-navbar></app-navbar>
+
+<h1 class="title">User's {{ username }} devices</h1>
+<mat-divider></mat-divider>
+<button mat-raised-button class="create" color="accent" (click)="createDevice()">Create a new Device for this user</button>
+<app-device-overview [username]="username"></app-device-overview>
